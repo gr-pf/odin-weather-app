@@ -3,6 +3,7 @@ import "./style.css";
 const API_KEY = "VXG7GBWM2JRTWQAQLNZTR3P8G";
 
 const form = document.querySelector("form");
+const cityBox = document.querySelector("#city-holder");
 
 async function getWeather(city) {
   const unitGroup = "metric";
@@ -12,8 +13,10 @@ async function getWeather(city) {
   try {
     const response = await fetch(url);
     const json = await response.json();
+    const cleanedJson = parseJson(json);
+    renderWeather(cleanedJson);
     console.log(json);
-    console.log(parseJson(json));
+    console.log(cleanedJson);
   } catch (err) {
     return console.log(err);
   }
@@ -27,6 +30,10 @@ function parseJson(json) {
   obj.icon = json.currentConditions.icon;
   obj.temp = json.currentConditions.temp;
   return obj;
+}
+
+function renderWeather(obj) {
+  cityBox.textContent = obj.city;
 }
 
 form.addEventListener("submit", function (event) {
