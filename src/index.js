@@ -9,10 +9,17 @@ async function getWeather(city) {
   const include = "days,hours,current";
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unitGroup}&include=${include}&key=${API_KEY}&lang=fr`;
 
-  const response = await fetch(url);
-  const json = await response.json();
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    console.log(json);
+  } catch (err) {
+    return console.log(err);
+  }
+}
 
-  console.log(json);
+function parseJson(json) {
+  const obj = {};
 }
 
 form.addEventListener("submit", function (event) {
