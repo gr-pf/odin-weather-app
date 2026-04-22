@@ -1,0 +1,6 @@
+.container {
+  max-width: 800px;
+  margin-inline: auto;
+  display: grid;
+  justify-content: center;
+}
