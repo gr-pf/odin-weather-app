@@ -13,6 +13,7 @@ async function getWeather(city) {
     const response = await fetch(url);
     const json = await response.json();
     console.log(json);
+    console.log(parseJson(json));
   } catch (err) {
     return console.log(err);
   }
@@ -20,6 +21,12 @@ async function getWeather(city) {
 
 function parseJson(json) {
   const obj = {};
+  obj.city = json.address;
+  obj.datetime = json.currentConditions.datetime;
+  obj.conditions = json.currentConditions.conditions;
+  obj.icon = json.currentConditions.icon;
+  obj.temp = json.currentConditions.temp;
+  return obj;
 }
 
 form.addEventListener("submit", function (event) {
