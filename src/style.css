@@ -4,3 +4,7 @@
   display: grid;
   justify-content: center;
 }
+
+#icon-holder {
+  width: 2rem;
+}
