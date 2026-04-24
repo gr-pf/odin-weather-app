@@ -20,3 +20,10 @@
 .cold {
   background-color: rgb(27, 27, 170);
 }
+
+.loader {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(74, 212, 56);
+  display: none;
+}
