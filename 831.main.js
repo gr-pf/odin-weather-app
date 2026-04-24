@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktemplate_odin_webpack=self.webpackChunktemplate_odin_webpack||[]).push([[831],{831(e,p,a){e.exports=a.p+"ce6bacd2ef055011125b.svg"}}]);
