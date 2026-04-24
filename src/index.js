@@ -4,6 +4,38 @@ const API_KEY = "VXG7GBWM2JRTWQAQLNZTR3P8G";
 
 const form = document.querySelector("form");
 const cityBox = document.querySelector("#city-holder");
+const datetimeBox = document.querySelector("#datetime-holder");
+const conditionsBox = document.querySelector("#conditions-holder");
+const iconBox = document.querySelector("#icon-holder");
+const tempBox = document.querySelector("#temp-holder");
+
+const WEATHER_CONFIG = {
+  city: {
+    box: cityBox,
+    label: null,
+    format: null,
+  },
+  datetime: {
+    box: datetimeBox,
+    label: "La date : ",
+    format: null,
+  },
+  conditions: {
+    box: conditionsBox,
+    label: "Les conditions sont : ",
+    format: null,
+  },
+  icon: {
+    box: iconBox,
+    label: null,
+    format: null,
+  },
+  temp: {
+    box: tempBox,
+    label: "La température est de : ",
+    format: (v) => `${v}°C`,
+  },
+};
 
 async function getWeather(city) {
   const unitGroup = "metric";
@@ -47,7 +79,11 @@ function parseJson(json) {
 }
 
 function renderWeather(obj) {
-  cityBox.textContent = obj.city;
+  for (const [key, { box, label, format }] of Object.entries(WEATHER_CONFIG)) {
+    const value = obj[key];
+    const formatted = format ? format(value) : value;
+    box.textContent = label ? `${label} ${formatted}` : formatted;
+  }
 }
 
 form.addEventListener("submit", function (event) {
