@@ -4,6 +4,9 @@ const API_KEY = "VXG7GBWM2JRTWQAQLNZTR3P8G";
 
 const form = document.querySelector("form");
 const forecast = document.querySelector(".forecast");
+
+const loader = document.querySelector(".loader");
+
 const cityBox = document.querySelector("#city-holder");
 const datetimeBox = document.querySelector("#datetime-holder");
 const conditionsBox = document.querySelector("#conditions-holder");
@@ -60,9 +63,7 @@ async function getWeather(city) {
   try {
     json = await response.json();
     const cleanedJson = parseJson(json);
-    renderWeather(cleanedJson);
-    console.log(json);
-    console.log(cleanedJson);
+    await renderWeather(cleanedJson);
   } catch (err) {
     console.error("error parsing/rendering: ", err);
     return;
@@ -118,9 +119,11 @@ function toogleForecast(temp) {
   }
 }
 
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", async function (event) {
   event.preventDefault();
+  loader.style.display = "block";
   const city = event.target["city"].value;
-  getWeather(city);
+  await getWeather(city);
+  loader.style.display = "none";
   form.reset();
 });
