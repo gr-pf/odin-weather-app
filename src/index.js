@@ -3,6 +3,7 @@ import "./style.css";
 const API_KEY = "VXG7GBWM2JRTWQAQLNZTR3P8G";
 
 const form = document.querySelector("form");
+const forecast = document.querySelector(".forecast");
 const cityBox = document.querySelector("#city-holder");
 const datetimeBox = document.querySelector("#datetime-holder");
 const conditionsBox = document.querySelector("#conditions-holder");
@@ -28,7 +29,7 @@ const WEATHER_CONFIG = {
   icon: {
     box: iconBox,
     label: null,
-    format: null,
+    format: importIcon,
   },
   temp: {
     box: tempBox,
@@ -78,11 +79,42 @@ function parseJson(json) {
   return obj;
 }
 
-function renderWeather(obj) {
+async function renderWeather(obj) {
   for (const [key, { box, label, format }] of Object.entries(WEATHER_CONFIG)) {
     const value = obj[key];
-    const formatted = format ? format(value) : value;
-    box.textContent = label ? `${label} ${formatted}` : formatted;
+    const formatted = format ? await format(value) : value;
+    if (key === "temp") {
+      toogleForecast(value);
+    }
+    if (key === "icon") {
+      box.innerHTML = formatted;
+    } else {
+      box.textContent = label ? `${label} ${formatted}` : formatted;
+    }
+  }
+}
+
+async function importIcon(icon) {
+  const module = await import("./icons/" + icon + ".svg");
+  const url = module.default;
+  const response = await fetch(url);
+  const svgText = await response.text();
+  return svgText;
+}
+
+function toogleForecast(temp) {
+  if (temp < 10) {
+    forecast.classList.add("cold");
+    forecast.classList.remove("hot");
+    forecast.classList.remove("moderate");
+  } else if (temp < 20) {
+    forecast.classList.remove("cold");
+    forecast.classList.remove("hot");
+    forecast.classList.add("moderate");
+  } else {
+    forecast.classList.remove("cold");
+    forecast.classList.add("hot");
+    forecast.classList.remove("moderate");
   }
 }
 
